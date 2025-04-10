@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Preguntas de REGLAMENTACION</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f4f4f4;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    .question {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .choices button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      background-color: #eee;
+    }
+    .choices button.selected {
+      background-color: #bbdefb;
+    }
+    .choices button.correct {
+      background-color: #c8e6c9;
+    }
+    .choices button.incorrect {
+      background-color: #ffcdd2;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    .next-button, .submit-button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    .stats {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <button class="submit-button" id="submitBtn" style="display: none">Enviar respuesta</button>
+    <div class="feedback" id="feedback"></div>
+    <div class="stats" id="stats"></div>
+    <button class="next-button" id="nextBtn" style="display: none">Próxima pregunta</button>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    // 1
+  {
+    question: "¿Cuál es el objeto del “Reglamento General de Radioaficionados”?",
+    choices: [
+      "Regular la actividad de los Radioaficionados, Radio Clubes, Instituciones Autorizadas e Instituciones Reconocidas.",
+      "Atribuir y reglamentar el uso de las bandas de frecuencias para el Servicio de Aficionados y el Servicio de Aficionados por Satélite, teniendo en consideración las condiciones de diseño, instalación y operación de estaciones radioeléctricas en sus respectivas bandas de frecuencias, resultantes de los avances tecnológicos, a fin de facilitar el acceso y el desarrollo de la actividad.",
+      "Establecer criterios técnicos para el diseño de equipamiento destinado a la actividad de los Radioaficionados."
+    ],
+    answerIndices: [0, 1]
+  },
+  {
+    question: "¿Cuál es el alcance del “Reglamento General de Radioaficionados”?",
+    choices: [
+      "Servicio de Aficionados.",
+      "Servicio de Aficionados por Satélite.",
+      "Servicio de Aficionados y Servicio de Aficionados por Satélite."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuál es la Autoridad de Aplicación para el “Reglamento General de Radioaficionados”?",
+    choices: [
+      "SECRETARÍA DE COMUNICACIONES (SC).",
+      "COMISIÓN NACIONAL DE COMUNICACIONES (CNC).",
+      "ENTE NACIONAL DE COMUNICACIONES (ENACOM).",
+      "MINISTERIO DE COMUNICACIONES (MINCOM)."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Son considerados equivalentes los términos “aficionados” y “aficionados por satélite” a “radioaficionados” y “radioaficionados por satélite” respectivamente?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “SERVICIO DE RADIOAFICIONADOS”:",
+    choices: [
+      "Servicio de radiocomunicación privado que tiene por objeto la instrucción de operadores comerciales.",
+      "Servicio de radiocomunicación público que tiene por objeto los estudios técnicos efectuados por operadores comerciales.",
+      "Servicio de radiocomunicación que tiene por objeto la instrucción individual, la intercomunicación y los estudios técnicos efectuados por Radioaficionados.",
+      "Servicio de radiocomunicación privado que tiene por objeto la instrucción de operadores de radiodifusión."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "Defina “SERVICIO DE RADIOAFICIONADOS POR SATÉLITE”:",
+    choices: [
+      "Servicio de radiocomunicación privado que tiene por objeto la instrucción de operadores comerciales.",
+      "Servicio de radiocomunicación que utiliza estaciones espaciales situadas en satélites artificiales de la Tierra para los mismos fines que el Servicio de Radioaficionados.",
+      "Servicio de radiocomunicación privado que tiene por objeto la instrucción de operadores de radiodifusión.",
+      "Servicio de radiocomunicación en el cual las señales emitidas o retransmitidas por estaciones espaciales están destinadas a la recepción directa por el público en general."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina “RADIOAFICIONADO”:",
+    choices: [
+      "Persona debidamente autorizada que se interesa en la radiotecnia con carácter exclusivamente individual, sin fines de lucro y que realiza con su estación actividades de instrucción, de intercomunicación y estudios técnicos.",
+      "Persona debidamente autorizada que se interesa en la radiotecnia con carácter exclusivamente comercial, con fines de lucro y que realiza con su estación actividades de instrucción, de intercomunicación y estudios técnicos.",
+      "Persona debidamente autorizada que se interesa en la radiotecnia con carácter exclusivamente individual, con fines de lucro y que realiza con su estación actividades de instrucción, de intercomunicación y estudios técnicos.",
+      "Persona debidamente autorizada que se interesa en la radiotecnia con carácter exclusivamente individual, sin fines de lucro y que realiza con su estación actividades de intercomunicación con fines particulares."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “RADIO CLUB”:",
+    choices: [
+      "Asociación Civil, integrada por cualquier operador de radio habilitado, cuyos objetivos fundamentales se apoyan en la agrupación de los mismos para propender a la difusión y fomento de la actividad radial.",
+      "Asociación Civil, integrada por entidades que agrupan a operadores de radio, cuyos objetivos fundamentales se basan en la enseñanza y práctica de la actividad comercial.",
+      "Persona Jurídica de Orden Privado cuya composición se tipifica dentro de la figura de Asociación Civil sin fines de lucro y sus objetivos fundamentales se apoyan en la agrupación de los Radioaficionados para fomentar el ingreso, enseñanza, difusión y práctica de la actividad.",
+      "Asociación Civil, integrada por usuarios del Servicios de Banda Ciudadana cuyos objetivos fundamentales se apoyan en la agrupación de los mismos para propender a la difusión y fomento de la actividad radial."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "Defina “INSTITUCIÓN AUTORIZADA”:",
+    choices: [
+      "Aquella institución, distinta de los Radio Clubes y de las Instituciones Reconocidas, autorizada por la Autoridad de Aplicación para dictar cursos sobre técnica, reglamentación y ética operativa, telegrafía y todo otro curso afín a la actividad, como así también, tomar exámenes para ingreso y ascenso de categorías de Radioaficionados.",
+      "Aquella institución, distinta de los Radio Clubes, autorizada por la Autoridad de Aplicación para fomentar el ingreso, difusión y práctica de la actividad, a través de Prácticas Operativas"
+    ],
+    answerIndices: [0]
+  },
+
+  // 10
+  {
+    question: "Defina “INSTITUCIÓN RECONOCIDA”:",
+    choices: [
+      "Aquella institución, distinta de los Radio Clubes y de las Instituciones Autorizadas, reconocida por la Autoridad de Aplicación para fomentar el ingreso, difusión y práctica de la actividad, a través de Prácticas Operativas",
+      "Aquella institución, distinta de los Radio Clubes, autorizada por la Autoridad de Aplicación para dictar cursos sobre técnica, reglamentación y ética operativa, telegrafía y todo otro curso afín a la actividad, como así también, tomar exámenes para ingreso y ascenso de categorías de Radioaficionados."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “LICENCIA DE RADIOAFICIONADO”:",
+    choices: [
+      "Autorización que otorga un Radio Club reconocido a todas aquellas personas físicas o jurídicas que han cumplido con los requisitos reglamentarios.",
+      "Autorización que otorga la Autoridad de Aplicación a todas aquellas personas jurídicas que hayan cumplido con los requisitos reglamentarios para obtener licencia, no facultando a instalar y operar estaciones del Servicio de Radioaficionados.",
+      "Autorización que otorga la Autoridad de Aplicación a todas aquellas personas físicas y jurídicas que han cumplido con los requisitos establecidos en el Reglamento. Su otorgamiento las faculta a instalar y operar estaciones en sus respectivas bandas de frecuencia, categorías y condiciones.",
+      "Autorización que otorga la Autoridad de Aplicación a todas aquellas personas jurídicas que han cumplido con los requisitos reglamentarios para obtener licencia y lo faculta para instalar y operar estaciones de Radioaficionado."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuál es la sigla del PERMISO INTERNACIONAL DE RADIOAFICIONADOS?",
+    choices: ["I.A.R.P.", "P.I.R.A.", "I.R.P.A."],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “PERMISO INTERNACIONAL DE RADIOAFICIONADOS”:",
+    choices: [
+      "Autorización extendida por la Autoridad de Aplicación de acuerdo con lo previsto en la Ley 24.730 y la Resolución 3745 SC/1997.",
+      "Autorización extendida por la Autoridad de Aplicación de acuerdo con lo previsto en la Resolución SC 50/1998."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “SEÑAL DISTINTIVA”:",
+    choices: [
+      "Identificación otorgada por la Autoridad de Aplicación a un Radioaficionado, Radio Club, Institución Autorizada o Institución Reconocida.",
+      "Identificación otorgada por IARU a un Radioaficionado, Radio Club, Institución Autorizada o Institución Reconocida.",
+      "Código que representa una clase de emisión, compuesta por el tipo de modulación, anchura de banda y naturaleza de la información."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “CATEGORÍA” de Radioaficionado:",
+    choices: [
+      "Es el nivel de calificación que otorga la Autoridad de Aplicación a los titulares de licencias comerciales que hayan cumplido con los requisitos establecidos.",
+      "Es el nivel de calificación que otorgan los a los titulares de licencia de Radioaficionado que hayan cumplido con los requisitos que para cada una de ellas se exige.",
+      "Nivel de calificación que otorga la Autoridad de Aplicación a aquel Radioaficionado que cumpla con los requisitos establecidos en el Reglamento. Cada categoría conlleva derechos y obligaciones asociados a la misma.",
+      "Es el nivel de calificación que otorga la Autoridad de Aplicación a los titulares de licencia de radiodifusión."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "Defina “CONTACTO DE DX”:",
+    choices: [
+      "Se conviene en denominar así a aquellos comunicados de duración ilimitada en donde se intercambian datos, comentarios técnicos y nombre de los operadores.",
+      "Comunicados entre estaciones que, por la distancia que las separa, inaccesibilidad geográfica, u otro factor de dificultad, no resulte frecuente la comunicación. Se realizan en los segmentos de bandas en que los contactos DX tienen prioridad y se limitan exclusivamente a intercambios de comunicación mínima e indispensable, con el objeto de facilitar la mayor cantidad de contactos posibles.",
+      "Se conviene en denominar así a aquellos comunicados con varios Radioaficionados a la vez, en los que se intercambian datos técnicos, nombre de los operadores, domicilios y números de orden.",
+      "Se conviene en denominar así a aquellos comunicados en los que se intercambian datos, comentarios generales, nombre de los operadores y datos de las estaciones."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina “ESTACIÓN REPETIDORA DE AFICIONADO”:",
+    choices: [
+      "Estación destinada a la retransmisión automática de las comunicaciones que se realicen en el Servicio de Radioaficionados, reservada únicamente al titular de la misma.",
+      "Estación destinada a la transmisión de comunicaciones que se realicen en la actividad comercial de radio y abierta a todos los usuarios.",
+      "Estación fija, destinada a la retransmisión automática de las comunicaciones que se realicen en el Servicio de Radioaficionados y abierta al tráfico general de los mismos, caracterizada por la señal distintiva del titular de la estación, posición geográfica, subtono y frecuencia asignada.",
+      "Estación destinada a la retransmisión automática de las comunicaciones que se realicen en el Servicio de Radioaficionados, reservada únicamente a los Radio Clubes titulares de la misma."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "Defina “REPETIDOR DIGITAL (Digipeater)”:",
+    choices: [
+      "Estación capaz de recibir y retransmitir información digital por paquete (Packet - Radio), en tiempo real, en la misma frecuencia, con capacidad de enlazar dos estaciones automáticamente. Se identifica con la señal distintiva del titular.",
+      "Estación capaz de recibir información digital, en distinta frecuencia, con capacidad de enlazar dos estaciones automáticamente. Se identifica con la señal distintiva del titular.",
+      "Estación capaz de recibir y retransmitir información emitida en cualquier modo, en tiempo real, en la misma frecuencia y con capacidad para enlazar varias estaciones a la vez.",
+      "Estación capaz de recibir información analógica, en distinta frecuencia con capacidad de enlazar dos estaciones automáticamente. Se identifica con la señal distintiva del titular."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “CONTROLADOR NODO TERMINAL (TNC)”:",
+    choices: [
+      "Es una unidad o programa que permite la conexión radial entre transceptores para el envío de datos analógicos. Se identifica con la señal distintiva del titular.",
+      "Unidad o programa que permite la conexión entre computadoras y equipos de radio, para la recepción y transmisión de datos digitales mediante un módem, en las bandas y modos atribuidos al Servicio de Radioaficionados. Se identifica con la señal distintiva del titular.",
+      "Es un equipo que permite la retransmisión automática de mensajes analógicos emitidos desde un radioaficionado a otro.",
+      "Es un transceptor que permite la retransmisión automática de mensajes analógicos emitidos desde un radioaficionado a otro."
+    ],
+    answerIndices: [1]
+  },
+
+  // 20
+  {
+    question: "Defina “SISTEMA DE BOLETINES Y BASE DE DATOS (BBS)”:",
+    choices: [
+      "Sistema automático, compuesto por computadoras, equipos radioeléctricos y Controladores Nodo Terminal que permite el almacenamiento y la distribución de mensajes y archivos de Radioaficionados. El ingreso y utilización del mismo por parte de los Radioaficionados es sin ningún tipo de limitación de acceso o de impedimento de uso. Su responsable es el titular de la licencia y se identifica con la señal distintiva del mismo.",
+      "Sistema manual, compuesto de transceptor y computadora, que agiliza el tránsito de paquetes digitales y distribuye información relativa a la actividad.",
+      "Sistema automático, atendido o no, compuesto de uno o más equipos, que permite el contacto entre dos estaciones que emiten comunicaciones analógicas.",
+      "Sistema manual, compuesto de transceptor y antena, que agiliza el tránsito de paquetes analógicos y distribuye información relativa a la actividad."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “SISTEMA DE MENSAJES PERSONALES (PMS/PBBS)”:",
+    choices: [
+      "Controlador Nodo Terminal (CNT) para almacenamiento de mensajes personales. Realiza correo electrónico y se identifica con la señal distintiva del titular.",
+      "Transceptor que posibilita el envío de mensajes generales dentro del correo electrónico entre Radioaficionados.",
+      "TNC para almacenamiento de mensajes abiertos al tráfico general del correo electrónico de radioescuchas.",
+      "Transceptor que posibilita el envío de mensajes en general dentro del correo electrónico entre estaciones de banda ciudadana."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “DISTRIBUCIÓN DE MENSAJES (Forwarding)”:",
+    choices: [
+      "Mecanismo utilizado por los BBS´s para la distribución de mensajes con otros BBS´s",
+      "Mecanismo utilizado por los digipeaters y TNC´s para almacenar mensajes.",
+      "Mecanismo utilizado por las repetidoras del Servicio de Radioaficionados para distribuir y almacenar mensajes analógicos.",
+      "Mecanismo utilizado por los Nodos para almacenar mensajes personales."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “TARJETA QSL”:",
+    choices: [
+      "Confirmación (postal o virtual) que intercambian los Radioaficionados por sus comunicados realizados y los Radioescuchas por los comunicados recepcionados.",
+      "Confirmación que intercambian los Radioaficionados en todos sus comunicados realizados y los radioescuchas por los comunicados recepcionados de estaciones de Radioaficionados.",
+      "Confirmación que intercambian los Radioaficionados en todos sus comunicados realizados y los radioescuchas por los comunicados bilaterales con estaciones de Radioaficionados.",
+      "Confirmación que intercambian los Radioaficionados por sus primeros comunicados realizados y los radioescuchas por los comunicados bilaterales con estaciones de Radioaficionado."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “INSTRUCTORES”:",
+    choices: [
+      "Miembros del Radio Club que tomará los exámenes y que se desempeñaron como Instructores de cursos. No podrán intervenir, junto con los miembros de comisión directiva y veedores en la evaluación de los exámenes.",
+      "Radioaficionado nombrado por el Radio Club, Institución Autorizada o Institución Reconocida, que por su capacidad, experiencia y estudio acredita la competencia necesaria para el dictado de cursos y/o coordinación de Prácticas Operativas, y que estará presente durante la toma y evaluación de los exámenes, según corresponda.",
+      "Miembros de otro Radio Club que, pese a no haber actuado como instructores, podrán intervenir junto con los miembros de comisión directiva en la evaluación de los exámenes.",
+      "Miembros de otro Radio Club que, pese a no haberse desempeñado como Instructores, podrán intervenir, junto con los Veedores Voluntarios en la evaluación de los exámenes."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina “CÓDIGO MORSE”:",
+    choices: [
+      "Comunicados entre estaciones que, por la distancia que las separa, inaccesibilidad geográfica, u otro factor de dificultad, no resulte frecuente la comunicación. Se realizan en los segmentos de bandas en que los contactos DX tienen prioridad y se limitan exclusivamente a intercambios de comunicación mínima e indispensable, con el objeto de facilitar la mayor cantidad de contactos posibles.",
+      "Sistema de escritura, estandarizado conforme a la Recomendación UIT-R M.1677-1 o sucesivas, que representa las letras del alfabeto, números y otros signos mediante una combinación de sonidos cortos (“puntos”), sonidos largos (“rayas”) y silencios (“espacios”).",
+      "Condición de operación en que la estación transmite con una potencia máxima de 5 W (CINCO WATTS) (CW) o de 10 W (DIEZ WATTS) (SSB)."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina “ESTACIÓN DEL SERVICIO DE RADIOAFICIONADO”:",
+    choices: [
+      "Estación radioeléctrica compuesta por uno o más transmisores, receptores o transceptores, incluyendo los sistemas irradiantes y las instalaciones accesorias, necesarios para operar en el Servicio de Radioaficionados. La misma podrá ser “Fija”, instalada en un domicilio, o cuando no tenga capacidad de trasladarse mientras se encuentra en operación; “Móvil”, instalada y con capacidad de operación en un vehículo terrestre, marítimo o aéreo; \"Móvil de mano\", cuando sea transportable manualmente, con fuente de alimentación autónoma y antena incorporada, con capacidad de operación.",
+      "Estación fija, destinada a la retransmisión automática de las comunicaciones que se realicen en el Servicio de Radioaficionados y abierta al tráfico general de los mismos, caracterizada por la señal distintiva del titular de la estación, posición geográfica, subtono y frecuencia asignada.",
+      "Estación radioeléctrica compuesta por uno o más transmisores, receptores o transceptores, incluyendo los sistemas irradiantes y las instalaciones accesorias, necesarios para operar en el Servicio de Radioaficionados por Satélite. La misma podrá ser “Terrena”, situada en la superficie de la Tierra, con sus variantes “Fija” y “Móvil”, o “Espacial”, situada a bordo de satélites artificiales cuyo cuerpo de referencia es la Tierra."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “RADIOBALIZA (RADIOFARO)”:",
+    choices: [
+      "Estación capaz de recibir y retransmitir información digital por paquetes (Packet - Radio), en tiempo real, en la misma frecuencia, con capacidad de enlazar dos estaciones automáticamente. Se identifica con la señal distintiva del titular.",
+      "Estación transmisora del Servicio de Radioaficionados, utilizada para determinar las condiciones de propagación y/o ajuste de antenas, etc., que emite a intervalos regulares y en una única frecuencia fija, su señal distintiva y datos referidos, entre otros, a su potencia, antena y altura.",
+      "Estación fija, destinada a la retransmisión automática de las comunicaciones que se realicen en el Servicio de Radioaficionados y abierta al tráfico general de los mismos, caracterizada por la señal distintiva del titular de la estación, posición geográfica, subtono y frecuencia asignada."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina “ESTACIÓN DEL SERVICIO DE RADIOAFICIONADO POR SATÉLITE”:",
+    choices: [
+      "Estación fija, destinada a la retransmisión automática de las comunicaciones que se realicen en el Servicio de Radioaficionados y abierta al tráfico general de los mismos, caracterizada por la señal distintiva del titular de la estación, posición geográfica, subtono y frecuencia asignada.",
+      "Estación capaz de recibir y retransmitir información digital por paquetes (Packet - Radio), en tiempo real, en la misma frecuencia, con capacidad de enlazar dos estaciones automáticamente. Se identifica con la señal distintiva del titular.",
+      "Estación radioeléctrica compuesta por uno o más transmisores, receptores o transceptores, incluyendo los sistemas irradiantes y las instalaciones accesorias, necesarios para operar en el Servicio de Radioaficionados por Satélite. La misma podrá ser “Terrena”, situada en la superficie de la Tierra, con sus variantes “Fija” y “Móvil”, o “Espacial”, situada a bordo de satélites artificiales cuyo cuerpo de referencia es la Tierra."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "Defina “PROYECTO INTERNACIONAL DE BALIZAS (IBP)”:",
+    choices: [
+      "Autorización extendida por la Autoridad de Aplicación de acuerdo con lo previsto en la Ley 24.730 y la Resolución 3745 SC/1997.",
+      "Red mundial de radiofaros en alta frecuencia (HF) organizado por IARU, compartiendo en la misma única frecuencia por banda entre las transmisoras (en 20, 17, 15, 12 y 10 metros).",
+      "Método de comunicación empleado por los Radioaficionados, en el que se utiliza la superficie lunar como elemento reflector de ondas de radio."
+    ],
+    answerIndices: [1]
+  },
+
+  // 30
+  {
+    question: "Defina “DESASTRE”:",
+    choices: [
+      "Interacción entre una amenaza y una población vulnerable que, por su magnitud, crea una interrupción en el funcionamiento de una sociedad y/o sistema a partir de una desproporción entre los medios necesarios para superarla y aquellos medios a disposición de la comunidad afectada conforme a Ley Nº 27.287, Artículo 2º.",
+      "Situación, daño provocado por un evento adverso de origen natural o provocado por los seres humanos que, por su magnitud, puede ser atendida por los medios disponibles localmente, conforme a Ley Nº 27.287, Artículo 2º."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “EMERGENCIA”:",
+    choices: [
+      "Interacción entre una amenaza y una población vulnerable que, por su magnitud, crea una interrupción en el funcionamiento de una sociedad y/o sistema a partir de una desproporción entre los medios necesarios para superarla y aquellos medios a disposición de la comunidad afectada conforme a Ley Nº 27.287, Artículo 2º.",
+      "Situación, daño provocado por un evento adverso de origen natural o provocado por los seres humanos que, por su magnitud, puede ser atendida por los medios disponibles localmente, conforme a Ley Nº 27.287, Artículo 2º."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina “CONCURSO”:",
+    choices: [
+      "Evento nacional y/o internacional en donde se ponen a prueba las habilidades de los Radioaficionados. Sus bases y condiciones son informadas mediante los boletines y revistas de los Radio Clubes, Instituciones Autorizadas e Instituciones Reconocidas.",
+      "Comunicados entre estaciones que, por la distancia que las separa, inaccesibilidad geográfica, u otro factor de dificultad, no resulte frecuente la comunicación...",
+      "Sistema de escritura, estandarizado conforme a la Recomendación UIT-R M.1677-1 o sucesivas, que representa letras, números y signos mediante puntos, rayas y espacios."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “ÉTICA OPERATIVA”:",
+    choices: [
+      "Es el conjunto de deberes, obligaciones, conductas y principios establecidos en el Reglamento y en las disposiciones, recomendaciones y procedimientos fijados por la Unión Internacional de Radioaficionados (IARU), que rigen el normal desenvolvimiento de la actividad de los Radioaficionados.",
+      "Es el conjunto de símbolos, alfabetos y códigos establecidos en el Reglamento y en las disposiciones, recomendaciones y procedimientos fijados por la Unión Internacional de Radioaficionados (IARU), que rigen el normal desenvolvimiento de la actividad de los Radioaficionados."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Defina “VEEDOR”:",
+    choices: [
+      "Radioaficionado nombrado por el Radio Club, Institución Autorizada o Institución Reconocida, que por su capacidad, experiencia y estudio acredita la competencia necesaria para el dictado de cursos y/o coordinación de Prácticas Operativas...",
+      "Radioaficionado de categoría GENERAL o SUPERIOR, designado por un Radio Club o Institución Autorizada, para estar presente en la sesión de exámenes, firmar las actas y certificados correspondientes e informar anormalidades si las hubiere.",
+      "Responsable de evaluar a los aspirantes al ingreso y ascenso de categorías de conformidad con los procedimientos y condiciones establecidas en el presente Reglamento."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "La licencia habilita a su titular a instalar y/u operar estaciones de:",
+    choices: [
+      "Servicio de Radioaficionados.",
+      "Servicio de Radioaficionados por Satélite.",
+      "Servicio de Radioaficionados y Radioaficionados por Satélite."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿A qué norma están sujetas las estaciones de Radioaficionados que operen en zonas de protección de Estaciones de Comprobación Técnica de Emisiones?",
+    choices: [
+      "Resolución SC 329/2000 o aquellas que la reemplacen o modifiquen.",
+      "LEY N° 27078.",
+      "Resolución SC 50/1998 o aquellas que la reemplacen o modifiquen."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿En qué circunstancias se permite conectar estaciones de radio a líneas telefónicas?",
+    choices: [
+      "Exclusivamente ante emergencias.",
+      "En situaciones de interés comunitario.",
+      "En eventos propios de la actividad.",
+      "En ninguna circunstancia."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es la vigencia de la licencia de radioaficionados?",
+    choices: [
+      "1 año.",
+      "5 años.",
+      "10 años.",
+      "Depende de la categoría."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Por qué período se puede renovar la licencia de radioaficionados y en qué condiciones?",
+    choices: [
+      "5 años, con renovación automática.",
+      "Indefinido.",
+      "5 años, al realizar el trámite de renovación, rehabilitación o exámen de ascenso de categoría."
+    ],
+    answerIndices: [2]
+  },
+
+  // 40
+  {
+    question: "¿Cuál es la vigencia de la autorización de una Estación Repetidora?",
+    choices: [
+      "1 año.",
+      "5 años.",
+      "5 años o hasta la cancelación o caducidad de la licencia del titular.",
+      "Depende de la categoría."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Con qué intervalo de tiempo un Radioaficionado debe transmitir su señal distintiva?",
+    choices: [
+      "5 minutos.",
+      "10 minutos.",
+      "30 minutos.",
+      "Cuando lo desee."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿En qué frecuencias y bajo qué condiciones se permite el funcionamiento de redes de Emergencia y/o Desastre?",
+    choices: [
+      "En todas las bandas, en aquellos casos y en los plazos que determine la Autoridad competente en materia de protección pública, defensa civil y operaciones de socorro.",
+      "En las frecuencias designadas a tal fin, en aquellos casos y en los plazos que determine la Autoridad competente en materia de protección pública, defensa civil y operaciones de socorro.",
+      "En las frecuencias designadas a tal fin, cuando el Radioaficionado lo considere necesario."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cuál es el plazo en que un radioaficionado deberá desinstalar en su totalidad las estaciones radioeléctricas y/o Repetidoras que pudiera poseer instaladas, una vez producida la caducidad de su licencia?",
+    choices: ["30 días", "60 días", "90 días", "1 año", "Sin plazo, ante requerimiento de la Autoridad de Aplicación"],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuál es el plazo en que un radioaficionado deberá desinstalar en su totalidad las estaciones radioeléctricas y/o Repetidoras que pudiera poseer instaladas, ante la cancelación de su licencia?",
+    choices: ["10 días", "30 días", "90 días", "1 año", "Sin plazo, ante requerimiento de la Autoridad de Aplicación"],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuáles son los principios básicos que rigen el Código de Conducta del Radioaficionado según IARU?",
+    choices: ["Sentido social y espíritu fraternal", "Lealtad", "Comprensión", "No discriminación", "Buenos modales", "Objetividad", "Tolerancia"],
+    answerIndices: [0,2,4,6]
+  },
+  {
+    question: "¿Cuál es la organización de Radioaficionados que representa sus intereses ante los foros internacionales?",
+    choices: ["American Radio Relay League (A.R.R.L.)", "International Telecommunications Union (I.T.U.)", "International Amateur Radio Union (I.A.R.U.)", "Comisión Interamericana de Telecomunicaciones (C.I.T.E.L.)"],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Qué orden de observancia tiene la reglamentación para los Radioaficionados de la República Argentina?",
+    choices: [
+      "Reglamento General de Radioaficionados - Disposiciones, recomendaciones y procedimientos de la Unión Internacional de Radioaficionados (IARU). Reglamentación UIT.",
+      "Disposiciones, recomendaciones y procedimientos de la Unión Internacional de Radioaficionados (IARU). Reglamento General de Radioaficionados, y Reglamentación UIT.",
+      "Reglamentación UIT, Disposiciones, recomendaciones y procedimientos de la Unión Internacional de Radioaficionados (IARU) y Reglamento General de Radioaficionados."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuáles son facultades de la Autoridad de Aplicación?",
+    choices: [
+      "Limitar, denegar, suspender o cancelar la licencia de Radioaficionado.",
+      "Asignar o modificar las señales distintivas.",
+      "Tomar exámenes de ingreso y ascenso de categorías.",
+      "Dictar cursos y fomentar la actividad a través de Prácticas Operativas."
+    ],
+    answerIndices: [0,1]
+  },
+  {
+    question: "¿Qué categoría se le otorga a los Radio Clubes, Instituciones Autorizadas e Instituciones Reconocidas?",
+    choices: ["Novicio", "General", "Superior"],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cómo debe identificarse el Radioaficionado cuando opere en forma personal la estación del Radio Club?",
+    choices: [
+      "Señal distintiva del Radio Club y señal distintiva propia.",
+      "Señal distintiva propia y señal distintiva del Radio Club.",
+      "Señal distintiva propia.",
+      "Señal distintiva del Radio Club."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Cuando el Radioaficionado opere en forma personal la estación del Radio Club, ¿en qué bandas puede operar?",
+    choices: ["En las bandas autorizadas a su categoría.", "En las bandas correspondientes a la categoría Superior."],
+    answerIndices: [0]
+  },
+  {
+    question: "En condiciones de Práctica Operativa por parte de aspirantes a obtener licencia, ¿cómo se deben identificar?",
+    choices: [
+      "Con señal distintiva del Radio Club, aclarando “en Práctica Operativa”.",
+      "Con señal distintiva del Instructor."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Quiénes podrán otorgar Certificados de Radioescuchas?",
+    choices: [
+      "Radio Clubes.",
+      "Instituciones Autorizadas.",
+      "Instituciones Reconocidas."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿El Radioaficionado puede realizar trámites en forma personal ante la Autoridad de Aplicación?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿El Radio Club podrá poseer filiales?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Bajo qué condiciones la Autoridad de Aplicación podrá autorizar filiales a un Radio Club?",
+    choices: [
+      "En localidades dentro de la misma provincia en las que no hubiera Radio Club.",
+      "En localidades de otra provincia en las que no hubiera Radio Club."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Qué categoría debe tener el Radioaficionado a cargo de la filial?",
+    choices: ["Novicio", "General", "Superior"],
+    answerIndices: [1,2]
+  },
+  {
+    question: "¿El Radioaficionado a cargo de la filial debe estar habilitado en el Libro de Actas del Radio Club?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cómo debe operarse la estación en una filial de un Radio Club?",
+    choices: [
+      "Señal distintiva del Radio Club, agregando una barra, la palabra “filial” y el nombre de la localidad.",
+      "Señal distintiva del Radioaficionado, agregando una barra, la palabra “filial” y el nombre de la localidad."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Podrán las filiales de los Radio Clubes efectuar algún tipo de trámite ante la Autoridad de Aplicación?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Las Instituciones Autorizadas están habilitadas por la Autoridad de Aplicación para dictar cursos y tomar exámenes?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Las Instituciones Reconocidas están autorizadas por la Autoridad de Aplicación para dictar cursos?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Las Instituciones Reconocidas están autorizadas por la Autoridad de Aplicación para tomar exámenes?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Las Instituciones Autorizadas pueden gestionar ante la Autoridad de Aplicación la documentación para ingreso y ascenso de categorías?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuáles son las categorías de radioaficionados según la nueva reglamentación?",
+    choices: ["Inicial", "Novicio", "Intermedia", "General", "Superior", "Especial"],
+    answerIndices: [1, 3, 4, 5]
+  },
+  {
+    question: "¿Quién tramita ante el ENACOM?",
+    choices: ["Radio Clubes", "Radioaficionados", "Instituciones Reconocidas", "Instituciones Autorizadas"],
+    answerIndices: [0,3]
+  },
+  {
+    question: "¿Cuál es la edad mínima para la categoría Novicio?",
+    choices: ["12 años", "9 años", "18 años"],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cuál es la edad mínima para la categoría General?",
+    choices: ["13 años", "16 años", "18 años"],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es la potencia de RF máxima permitida para la categoría Novicio?",
+    choices: ["50 vatios.", "100 vatios.", "150 vatios.", "200 vatios."],
+    answerIndices: [3]
+  },
+  {
+    question: "¿Cuántos años de actividad ininterrumpida en categoría NOVICIO hay que acreditar para ascender a categoría GENERAL?",
+    choices: ["2 años.", "1 año.", "5 años.", "3 años."],
+    answerIndices: [3]
+  },
+  {
+    question: "¿Cada cuántos años debe renovarse la licencia de Radioaficionado?",
+    choices: ["2 años.", "4 años.", "5 años.", "10 años."],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuáles son los requerimientos para obtener la categoría ESPECIAL?",
+    choices: [
+      "Categoría Superior con 60 años de actividad ininterrumpida.",
+      "Categoría Superior con 20 años de actividad ininterrumpida.",
+      "Categoría Superior con 50 años de actividad ininterrumpida.",
+      "Categoría Superior con 50 años de antigüedad."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Qué plazo tiene el Radioaficionado para renovar su licencia una vez vencido el período de 5 años?",
+    choices: ["3 meses", "12 meses", "6 meses"],
+    answerIndices: [1]
+  },
+  {
+    question: "Defina RADIOESCUCHA:",
+    choices: [
+      "Persona debidamente autorizada que se interesa en la radiotecnia con carácter exclusivamente personal y sin fines de lucro, y que realiza actividades de instrucción, de intercomunicación y estudios técnicos.",
+      "Persona física autorizada exclusivamente a la recepción de emisiones en las bandas de frecuencia atribuidas a los Servicios de Radioaficionados y de Radioaficionados por Satélite."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Qué ocurre con el Certificado de Radioescucha al obtener la licencia de radioaficionado?",
+    choices: [
+      "Continúa teniendo vigencia.",
+      "Automáticamente queda dado de baja.",
+      "Le será requerido para el ascenso de categoría.",
+      "Ninguna es correcta."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Dónde gestionan la autorización para operar los Radioaficionados extranjeros en tránsito o residencia temporaria en Argentina?",
+    choices: [
+      "Ante los RADIO CLUBES.",
+      "Directamente ante la Autoridad de Aplicación.",
+      "La Sociedad Nacional miembro de I.A.R.U.",
+      "El Comité Federal de Radiodifusión."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Qué radioaficionado extranjero está exceptuado de gestionar autorización para operar en Argentina?",
+    choices: [
+      "Los que pertenecen a algún país signatario del IARP.",
+      "Cualquier radioaficionado extranjero."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Qué es el Permiso Internacional de Aficionado (I.A.R.P.)?",
+    choices: [
+      "Un documento que permite a su tenedor operar sin restricciones en todos los países del mundo.",
+      "Un documento que faculta a su tenedor operar en los países de América signatarios del Convenio Interamericano sobre el IARP."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿En cuántas Clases se emite el I.A.R.P. según Resolución SC 3745/1997?",
+    choices: ["Una Clase.", "Dos Clases.", "Tres Clases.", "Cuatro Clases."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Qué categoría se necesita para obtener el IARP según Resolución SC 3745/1997?",
+    choices: [
+      "Sólo Superior.",
+      "General y Superior.",
+      "Intermedia, General y Superior.",
+      "No hay restricciones."
+    ],
+    answerIndices: [3]
+  },
+  {
+    question: "¿Qué bandas habilita el IARP de Clase 1?",
+    choices: [
+      "Sólo en bandas por sobre 30 MHz.",
+      "Sólo en bandas de 10, 15 y 20 metros.",
+      "En todas las bandas.",
+      "Sólo en bandas por debajo de 30 MHz."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Qué bandas habilita el IARP de Clase 2?",
+    choices: [
+      "En todas las bandas.",
+      "Sólo en bandas por sobre 30 MHz.",
+      "En bandas de 80, 40 y 20 metros."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿A qué corresponde el prefijo en la señal distintiva?",
+    choices: ["Al país.", "A la provincia.", "A la categoría del radioaficionado."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es el prefijo correspondiente a la República Argentina?",
+    choices: ["LU/LW.", "CX.", "PY."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿La/s primera/s letras del sufijo de la señal distintiva corresponden a:",
+    choices: ["País.", "Provincia.", "Categoría."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cuál es el criterio de asignación del sufijo si solo se poseen estaciones móviles?",
+    choices: [
+      "Domicilio de emplazamiento de la estación fija.",
+      "Domicilio indicado en el DNI del Radioaficionado."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cuál es el criterio de asignación del sufijo si se poseen estación fija y móviles?",
+    choices: [
+      "Domicilio de emplazamiento de la estación fija.",
+      "Domicilio del DNI del Radioaficionado."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿A qué categoría se le puede asignar una señal distintiva con un sufijo de 2 letras?",
+    choices: [
+      "Categoría General.",
+      "Categoría Superior y Especial.",
+      "Cualquier categoría."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿En qué otro caso se puede asignar una señal distintiva con sufijo de 2 letras?",
+    choices: [
+      "Por fallecimiento del titular, a un familiar que la reclame.",
+      "Por pedido del titular hacia un tercero."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Por cuánto tiempo queda reservada una señal distintiva por fallecimiento del titular?",
+    choices: ["2 años.", "1 año.", "5 años."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Por cuánto tiempo se otorga la Señal Distintiva Especial?",
+    choices: ["2 años.", "1 año.", "5 años."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Quiénes pueden solicitar Señales Distintivas Especiales?",
+    choices: [
+      "Radioaficionados categoría General o Superior.",
+      "Radio Clubes, Instituciones Autorizadas, Instituciones Reconocidas.",
+      "Radioaficionados categoría Novicio."
+    ],
+    answerIndices: [0,1]
+  },
+  {
+    question: "¿Puede un radioaficionado de cualquier categoría operar en todas las bandas del titular en eventos con Señal Distintiva Especial?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Qué condiciones debe cumplir un Radioaficionado para solicitar una Señal Distintiva Especial?",
+    choices: [
+      "Haber participado en tres concursos distintos con su señal distintiva propia.",
+      "Haber realizado en cada uno de ellos un mínimo de 500 contactos.",
+      "Haber sido titular de equipo de operación."
+    ],
+    answerIndices: [0,1]
+  },
+  {
+    question: "¿Se pueden tener dos o más Señales Distintivas Especiales vigentes al mismo tiempo?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿En qué casos los titulares de licencia de Radioaficionado están autorizados a instalar y operar estaciones móviles?",
+    choices: [
+      "Sólo en caso de emergencias.",
+      "Sólo en período de vacaciones.",
+      "Cuando posea licencia de conductor.",
+      "No hay restricciones."
+    ],
+    answerIndices: [3]
+  },
+  {
+    question: "¿Quién puede operar una estación radioeléctrica correspondiente al Servicio de Radioaficionado y al Servicio de Radioaficionado por Satélite?",
+    choices: [
+      "Su titular u otro Radioaficionado que él mismo autorice.",
+      "Cualquier Radioaficionado.",
+      "Ningún Radioaficionado distinto a su titular."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Cuando un Radioaficionado opera una estación radioeléctrica de la cual no es titular, ¿cómo se debe identificar?",
+    choices: [
+      "Haciendo mención de la señal distintiva del titular y de la propia, en ese orden, seguido de una barra y la letra correspondiente a la división política.",
+      "Haciendo mención de la señal distintiva propia y la del titular, en ese orden, seguido de una barra y la letra correspondiente a la división política.",
+      "Haciendo mención de la señal distintiva propia."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "Cuando un Radioaficionado opera una estación radioeléctrica de la cual no es titular, ¿en qué bandas lo hace?",
+    choices: [
+      "En las permitidas según la categoría del Titular.",
+      "En las permitidas según la categoría del Operador."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Quiénes podrán operar simultáneamente múltiples estaciones de su titularidad durante cursos, exámenes, DX o concursos?",
+    choices: [
+      "Radioaficionados.",
+      "Radio Clubes, Instituciones Autorizadas e Instituciones Reconocidas."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "En caso que el Radioaficionado posea más de una estación fija, ¿es necesario declararlas a todas?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿En caso de trasladar una estación fija por un período mayor a 120 días corridos, se deberá solicitar el cambio de domicilio de emplazamiento?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Ante qué Organismo debe realizar el trámite para instalar una estructura soporte de antenas?",
+    choices: ["ENACOM.", "ANAC."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cómo se debe operar una estación móvil?",
+    choices: [
+      "Se deberá mencionar su señal distintiva, su ubicación geográfica y su condición de móvil.",
+      "Se deberá mencionar su señal distintiva, su ubicación geográfica."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Qué categoría debe tener quien desee ser responsable primario de una estación espacial del Servicio de Radioaficionados por Satélite?",
+    choices: ["GENERAL o SUPERIOR.", "ESPECIAL.", "NOVICIO."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Es necesario registrar ante la Autoridad de Aplicación las Estaciones Terrenas del Servicio de Radioaficionados por Satélite?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿La Estación Repetidora debe estar autorizada ante la Autoridad de Aplicación?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Se puede solicitar autorización para una Estación Repetidora en bandas cruzadas VHF/UHF?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿En qué circunstancias se autoriza el uso de bandas cruzadas VHF/UHF en una Repetidora?",
+    choices: [
+      "En determinadas zonas geográficas.",
+      "Cuando no haya disponibilidad espectral.",
+      "Cuando el solicitante sea un Radioaficionado de categoría Superior."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es el plazo máximo para poner en funcionamiento una Estación Repetidora autorizada?",
+    choices: ["72 horas.", "30 días.", "60 días.", "90 días."],
+    answerIndices: [3]
+  },
+  {
+    question: "¿Cuál es el plazo máximo que puede permanecer inactiva una Estación Repetidora antes de su caducidad automática?",
+    choices: ["72 horas.", "30 días.", "60 días.", "90 días."],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Puede haber Estaciones Repetidoras con acceso codificado mediante subtonos?",
+    choices: [
+      "No, porque la Reglamentación lo prohíbe.",
+      "No, porque los equipos no disponen de subtonos.",
+      "Sí, siempre que el código sea aprobado por la Autoridad de Aplicación y sea de conocimiento público.",
+      "Sí, si el código es de conocimiento previo sólo de la Autoridad de Aplicación."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cómo se identifican las Estaciones Repetidoras?",
+    choices: [
+      "Con la señal distintiva del titular y la localidad del emplazamiento de la Estación Repetidora.",
+      "Con la señal distintiva del titular.",
+      "Con la señal distintiva del titular, la localidad de la estación fija y la del emplazamiento de la Repetidora."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuánto tiempo tiene el titular para comunicar a la Autoridad de Aplicación el inicio de operación de una Repetidora?",
+    choices: ["15 días corridos.", "30 días corridos.", "60 días corridos."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuáles son las causas de caducidad de una autorización de Estación Repetidora?",
+    choices: [
+      "No haber informado dentro de los 15 días corridos, el inicio de su operación.",
+      "Inactividad comprobada en un período mayor a los 60 días corridos.",
+      "No haber renovado la licencia del titular o la autorización de la Repetidora.",
+      "Cuando el titular recibe un apercibimiento por parte de la Autoridad de Aplicación."
+    ],
+    answerIndices: [0,1,2]
+  },
+  {
+    question: "¿Cuánto tiempo se dispone desde el cese de emisiones para dar de baja una Repetidora?",
+    choices: ["15 días corridos.", "30 días corridos.", "60 días corridos."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Al solicitar la baja de una Repetidora se deben desmantelar las instalaciones?",
+    choices: [
+      "Siempre.",
+      "Sólo cuando la Autoridad de Aplicación lo requiera.",
+      "Nunca."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Qué se requiere para autorizar un enlace de 2 o más Repetidoras?",
+    choices: [
+      "La conformidad por escrito de los titulares.",
+      "Sólo el estudio técnico del cálculo de enlace.",
+      "El estudio técnico del cálculo de enlace y la conformidad por escrito de los titulares."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Es obligatorio contar con un sistema de apagado en una Repetidora?",
+    choices: ["Sí", "No"],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Si se opta por control remoto mediante vínculo radioeléctrico, se requiere autorización?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿La frecuencia para el control remoto por radio puede estar dentro de una banda de radioaficionados?",
+    choices: ["Sí", "No"],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Qué categoría se requiere para instalar y poner en funcionamiento una Radiobaliza (Radiofaro)?",
+    choices: ["Novicio.", "General.", "Superior.", "No se requiere una categoría determinada."],
+    answerIndices: [3]
+  },
+  {
+    question: "¿Cuántas señales de Radiobalizas pueden emitirse desde el mismo lugar de emplazamiento?",
+    choices: ["Sólo una.", "Dos.", "Tres.", "No hay limitaciones."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Con cuántos días de anticipación se debe notificar a la Autoridad de Aplicación sobre la instalación de una Radiobaliza?",
+    choices: ["10 días.", "15 días", "30 días.", "No se necesita notificar."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Quiénes pueden dictar cursos y/o tomar examen para ingreso y ascenso de categoría?",
+    choices: ["Radio Clubes.", "Instituciones Autorizadas.", "Instituciones Reconocidas."],
+    answerIndices: [0, 1]
+  },
+  {
+    question: "¿Se podrá rendir examen libre, sin realizar cursos?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cómo deberán tomarse los exámenes para ingreso o ascenso de categoría?",
+    choices: [
+      "En forma escrita únicamente.",
+      "En forma oral únicamente.",
+      "En forma escrita, y para aspirantes no videntes o imposibilitados para escribir, en forma oral."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Quiénes están autorizados a dar prácticas operativas?",
+    choices: ["Radio Clubes.", "Instituciones Autorizadas.", "Instituciones Reconocidas."],
+    answerIndices: [0, 1, 2]
+  },
+  {
+    question: "¿Quién supervisa las prácticas operativas?",
+    choices: ["Veedor.", "Instructor.", "Autoridades del Radio Club, Institución Autorizada y/o Instituciones Reconocidas."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿El Instructor debe estar registrado en el Libro de Actas y emitir certificado?",
+    choices: ["Sí", "No"],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuántas horas de prácticas operativas de recepción deben cumplirse?",
+    choices: ["6 hs.", "12 hs."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Las prácticas operativas deben asentarse en el Libro de Guardia?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Las prácticas operativas pueden realizarse en filiales o domicilio del instructor por distancias excesivas?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Con qué señal distintiva operará el instructor a distancia?",
+    choices: ["Señal distintiva del Radio Club", "Señal distintiva propia del Instructor"],
+    answerIndices: [1]
+  },
+  {
+    question: "¿La autorización del instructor a distancia debe estar en el Libro de Actas?",
+    choices: ["Sí.", "No."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuáles son las funciones del instructor?",
+    choices: [
+      "Dictar cursos.",
+      "Tomar exámenes.",
+      "Coordinar las prácticas operativas.",
+      "Organizar concursos.",
+      "Firmar los Certificados de Aprobación de Examen."
+    ],
+    answerIndices: [0,1,2]
+  },
+  {
+    question: "¿Qué categoría mínima debe tener el Instructor?",
+    choices: ["Novicio.", "General.", "Superior.", "Especial."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Puede ser instructor un radioaficionado sancionado por ENACOM?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Puede un instructor tomar examen a familiares directos?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Qué categoría mínima debe tener un examinador designado por un Radio Club?",
+    choices: ["General", "Superior", "Especial"],
+    answerIndices: [0,1]
+  },
+  {
+    question: "¿Cuánto dura la validez de un Certificado de Aprobación de examen?",
+    choices: ["3 meses.", "6 meses.", "12 meses."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿El certificado de aprobación de examen autoriza a operar antes de obtener la licencia?",
+    choices: ["Sí.", "No."],
+    answerIndices: [1]
+  },
+  {
+    question: "Para la categoría Novicio, ¿el examen de telegrafía será?",
+    choices: ["Teórico.", "Práctico."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuántos caracteres se consideran una palabra en el examen de Telegrafía?",
+    choices: ["5.", "10.", "Más de 10."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuántos caracteres se considera una letra (A–Z) en telegrafía?",
+    choices: ["1.", "2.", "Más de 2."],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuántos caracteres se consideran para números y signos de puntuación?",
+    choices: ["1.", "2.", "Más de 2."],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Qué datos deben consignarse en el Libro de Guardia?",
+    choices: [
+      "Fecha, hora de comienzo y finalización del comunicado.",
+      "Clase de emisión empleada.",
+      "Potencia transmitida.",
+      "Señal distintiva de la estación corresponsal."
+    ],
+    answerIndices: [0,1,3]
+  },
+  {
+    question: "¿Cuál es la función de un veedor?",
+    choices: [
+      "Participar en la confección del examen.",
+      "Firmar el acta de examen.",
+      "Firmar el certificado de aprobación de examen.",
+      "Atender consultas de los examinados durante el examen."
+    ],
+    answerIndices: [1,2]
+  },
+  {
+    question: "¿Cuáles son los requisitos de un veedor?",
+    choices: [
+      "Ser Radioaficionado argentino o residente con cualquier categoría.",
+      "No haber sido sancionado por la Autoridad de Aplicación.",
+      "Ser designado por el Radio Club o Institución Autorizada.",
+      "Abstenerse de participar en exámenes a familiares directos de primer grado."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿El veedor debe pertenecer al mismo Radio Club o Institución que toma el examen?",
+    choices: ["Sí.", "No.", "Indistinto."],
+    answerIndices: [2]
+  },
+  {
+    question: "Se consideran infracciones generales:",
+    choices: [
+      "Operar la estación sin licencia vigente.",
+      "Ceder el micrófono a otro Radioaficionado.",
+      "Comunicar con estaciones no autorizadas.",
+      "Grabar emisiones de terceros y retransmitirlas.",
+      "Referirse a temas de índole política, religiosa o racial.",
+      "Transmitir música."
+    ],
+    answerIndices: [0, 2, 4, 5]
+  },
+  {
+    question: "Se consideran infracciones de identificación:",
+    choices: [
+      "Identificarse con una señal distintiva perteneciente a otro Radioaficionado.",
+      "Omitir mencionar junto con la señal distintiva de la estación móvil, el lugar geográfico de su actual ubicación.",
+      "Mencionar la señal distintiva del Radioaficionado titular y la propia cuando se utilice su estación.",
+      "Utilizar una Señal Distintiva Especial vencida o no autorizada por la Autoridad de Aplicación.",
+      "Mencionar la señal distintiva del Radio Club y la propia cuando se utilice la estación de dicho Radio Club.",
+      "Omitir mencionar que se está operando en “Práctica Operativa” cuando corresponda."
+    ],
+    answerIndices: [0, 1, 3, 5]
+  },
+  {
+    question: "Se consideran infracciones operativas:",
+    choices: [
+      "Transmitir en frecuencia y/o potencia no autorizada para la categoría.",
+      "Transmitir textos encriptados.",
+      "Realizar o participar en concursos sobre frecuencias no autorizadas.",
+      "Trasladar la estación fija por 90 días sin notificar a la Autoridad de Aplicación."
+    ],
+    answerIndices: [0, 1, 2]
+  },
+  {
+    question: "Se consideran infracciones relativas a Estaciones Repetidoras:",
+    choices: [
+      "No contar con dispositivos de identificación.",
+      "Utilizar frecuencias diferentes a las autorizadas.",
+      "Entrelazar Estaciones Repetidoras sin autorización.",
+      "Ceder la autorización de una repetidora a otro Radioaficionado."
+    ],
+    answerIndices: [0, 1, 2]
+  },
+  {
+    question: "Se consideran infracciones relativas a Radiobalizas:",
+    choices: [
+      "Operar una Radiobaliza no notificada a la Autoridad de Aplicación.",
+      "Emitir simultáneamente más de una Radiobaliza en la misma banda y desde el mismo emplazamiento.",
+      "Operar con potencias superiores a las autorizadas en el Reglamento.",
+      "Operar con una potencia de 50 W en la banda de 2 m."
+    ],
+    answerIndices: [0, 1, 2]
+  },
+  {
+    question: "¿Cuál es el orden de sanciones al cometer y reiterar infracciones?",
+    choices: [
+      "Llamado de atención – Apercibimiento – Sanción económica – Suspensión – Cancelación de la licencia.",
+      "Llamado de atención – Sanción económica – Suspensión – Cancelación de la licencia.",
+      "Llamado de atención – Sanción económica – Cancelación de la licencia."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Puede un Radioaficionado transmitir en los extremos de las bandas asignadas a su categoría?",
+    choices: [
+      "Sí, porque está en una frecuencia autorizada de acuerdo a la clase de emisión.",
+      "No, porque debido a la anchura de banda de la transmisión, saldría fuera del sector autorizado.",
+      "Sí, porque está en la banda autorizada para su categoría.",
+      "Ninguna es correcta."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿A qué tipo/modulación corresponde la clase de emisión A3E?",
+    choices: [
+      "Telefonía. Amplitud Modulada. Doble Banda Lateral.",
+      "Telefonía. Modulación de Frecuencia.",
+      "Telefonía. Banda Lateral Única con Portadora Suprimida.",
+      "Teletipo. Telegrafía por Desplazamiento de Frecuencia."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿A qué tipo/modulación corresponde la clase de emisión A1A?",
+    choices: [
+      "Telefonía. Modulación de Frecuencia.",
+      "Teletipo. Telegrafía por Desplazamiento de Frecuencia.",
+      "Telegrafía. Código Morse.",
+      "Telefonía. Banda Lateral Única con Portadora Suprimida."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿A qué tipo/modulación corresponde la clase de emisión J3E?",
+    choices: [
+      "Telegrafía. Código Morse.",
+      "Telefonía. Banda Lateral Única con Portadora Suprimida.",
+      "Televisión. Modulación de Frecuencia.",
+      "Televisión. Doble Banda Lateral."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿A qué tipo/modulación corresponde la clase de emisión F3E?",
+    choices: [
+      "Facsímil.",
+      "Telegrafía. Código Morse.",
+      "Telefonía. Modulación de Frecuencia. Doble Banda Lateral.",
+      "Teletipo. Telegrafía por Desplazamiento de Frecuencia."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿A qué modo de emisión corresponde la clase J2D?",
+    choices: ["AM", "PACKET", "CW", "APRS"],
+    answerIndices: [1,3]
+  },
+  {
+    question: "¿A qué modo de emisión corresponde la clase J3E?",
+    choices: ["SSB", "RTTY", "SSTV", "ATV"],
+    answerIndices: [0]
+  },
+  {
+    question: "¿A qué modo de emisión corresponde la clase A1A?",
+    choices: ["SSB", "CW", "RTTY", "PACKET"],
+    answerIndices: [1]
+  },
+  {
+    question: "¿A qué modo de emisión corresponde la clase F3E?",
+    choices: ["ATV", "FM", "FAX", "AM"],
+    answerIndices: [1]
+  },
+  {
+    question: "¿A qué modo de emisión corresponde la clase F1B?",
+    choices: ["FAX", "CW", "RTTY", "PACKET"],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuándo puede una estación de Radioaficionado reclamar protección por interferencias en una banda secundaria?",
+    choices: [
+      "Sólo si la interferencia proviene de una estación comercial.",
+      "Sólo si proviene de un servicio oficial.",
+      "Sólo si proviene de una estación con atribución secundaria.",
+      "Puede reclamar en cualquier caso."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿En qué bandas puede transmitir una estación de Radioaficionado por satélite?",
+    choices: [
+      "En todas las bandas atribuidas al Servicio de Radioaficionados.",
+      "En cualquier frecuencia de las bandas atribuidas al Servicio de Radioaficionados por Satélite.",
+      "En los segmentos autorizados para uso satelital dentro de las bandas atribuidas al Servicio de Radioaficionados por Satélite."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿En cuál de las siguientes bandas puede operar un Radioaficionado Novicio?",
+    choices: ["60 metros", "30 metros", "12 metros", "70 centímetros"],
+    answerIndices: [0,3]
+  },
+  {
+    question: "¿En cuál de estas frecuencias puede operar un Radioaficionado Novicio?",
+    choices: ["146000 kHz", "10135 kHz", "3550 kHz", "14235 kHz"],
+    answerIndices: [0,2]
+  },
+  {
+    question: "En la banda de 15 metros, un Radioaficionado Novicio:",
+    choices: [
+      "Puede emitir en todos los segmentos.",
+      "Puede emitir sólo en algunos segmentos.",
+      "No puede emitir en esta banda.",
+      "Posee restricciones adicionales de potencia."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿En qué porción de la banda de 20 metros NO puede operar un Novicio?",
+    choices: [
+      "14000 – 14070 kHz.",
+      "14070 – 14095 kHz.",
+      "14095 – 14099 kHz."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es la potencia máxima autorizada para la categoría Novicio en la banda de 30 metros?",
+    choices: [
+      "500 W.",
+      "250 W.",
+      "No puede emitir en esta banda.",
+      "La autorizada para la categoría."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuál es la PIRE máxima autorizada para la categoría Novicio en la banda de 2200 metros?",
+    choices: [
+      "1 W.",
+      "25 W.",
+      "La autorizada para la categoría.",
+      "No puede emitir en esta banda."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es la PIRE máxima autorizada para la categoría Novicio en la banda de 630 metros?",
+    choices: [
+      "1 W.",
+      "5 W.",
+      "La autorizada para la categoría.",
+      "No puede emitir en esta banda."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cuál es la PIRE máxima autorizada para la categoría Novicio en la banda de 60 metros?",
+    choices: [
+      "25 W.",
+      "100 W.",
+      "La autorizada para la categoría.",
+      "No puede emitir en esta banda."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "La banda de frecuencias de 80 metros:",
+    choices: [
+      "Está atribuida al Servicio de Radioaficionados con carácter primario.",
+      "Está atribuida al Servicio de Radioaficionados con carácter secundario.",
+      "Está atribuida al Servicio de Radioaficionados con carácter primario o secundario según el segmento de frecuencias."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "¿Cuál es la anchura de banda máxima para DIGIMODOS en la banda de 2 y 10 metros?",
+    choices: [
+      "< = 3 kHz.",
+      "< = 16 kHz.",
+      ">= 16 kHz.",
+      ">= 3 kHz."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Cuál es la anchura de banda máxima para DIGIMODOS en la banda de 40 y 80 metros?",
+    choices: [
+      "< = 3 kHz.",
+      "< = 50 kHz.",
+      "< = 100 kHz.",
+      "< = 200 kHz."
+    ],
+    answerIndices: [0]
+  },
+  {
+    question: "¿Cuál es la única actividad permitida a un Radioaficionado de categoría Novicio en la banda de 17 metros?",
+    choices: [
+      "Emitir en RTTY.",
+      "Emitir en SSB.",
+      "Emitir una Radiobaliza."
+    ],
+    answerIndices: [2]
+  },
+  {
+    question: "Una frecuencia indicada como de uso exclusivo para un modo de emisión puede utilizarse para:",
+    choices: [
+      "Emitir en un modo diferente sólo si se encuentra desocupada.",
+      "Emitir únicamente en ese modo.",
+      "Queda supeditado a la categoría del Radioaficionado."
+    ],
+    answerIndices: [1]
+  },
+  {
+    question: "¿Puede un Radioaficionado de categoría Novicio efectuar transmisiones en AM en la banda de 3 centímetros?",
+    choices: [
+      "Siempre que se trate de emisiones con baja potencia.",
+      "Siempre que se trate de emisiones de prueba.",
+      "Siempre, sin restricciones.",
+      "No están permitidas las emisiones en ese modo."
+    ],
+    answerIndices: [3]
+    
+  },
+  {
+    question: "¿Puede un Radioaficionado de categoría Novicio efectuar transmisiones del Servicio de Radioaficionados por Satélite en la banda de 23 centímetros?",
+    choices: [
+      "Sólo en sentido espacio – tierra, en el rango 1260 – 1270 MHz.",
+      "Sólo en sentido tierra – espacio, en el rango 1260 – 1270 MHz.",
+      "Sí, en ambos sentidos, en el rango 1260 – 1270 MHz.",
+      "No están permitidas."
+    ],
+    answerIndices: [1]
+  }
+  ];
+
+  function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  const shuffledQuestions = shuffle(questions);
+  let currentIndex = 0;
+  let totalAnswered = 0;
+  let totalCorrect = 0;
+  let selectedIndices = [];
+
+  const questionEl = document.getElementById('question');
+  const choicesEl = document.getElementById('choices');
+  const feedbackEl = document.getElementById('feedback');
+  const statsEl = document.getElementById('stats');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function arraysEqual(a, b) {
+    return a.length === b.length && a.every(i => b.includes(i));
+  }
+
+  function showQuestion() {
+    const current = shuffledQuestions[currentIndex];
+    selectedIndices = [];
+
+    questionEl.textContent = current.question;
+    choicesEl.innerHTML = '';
+    feedbackEl.textContent = '';
+    submitBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'none';
+
+    current.choices.forEach((choice, index) => {
+      const btn = document.createElement('button');
+      btn.textContent = choice;
+      btn.onclick = () => toggleSelection(btn, index);
+      choicesEl.appendChild(btn);
+    });
+  }
+
+  function toggleSelection(btn, index) {
+    if (selectedIndices.includes(index)) {
+      selectedIndices = selectedIndices.filter(i => i !== index);
+      btn.classList.remove('selected');
+    } else {
+      selectedIndices.push(index);
+      btn.classList.add('selected');
+    }
+  }
+
+  function updateStats() {
+    const percentage = Math.round(totalCorrect / totalAnswered * 100);
+    statsEl.textContent = `${totalCorrect}/${totalAnswered} (${percentage}%)`;
+  }
+
+  function submitAnswer() {
+    const current = shuffledQuestions[currentIndex];
+    const buttons = choicesEl.querySelectorAll('button');
+    const correctSet = current.answerIndices;
+    const isCorrect = arraysEqual(
+      selectedIndices.sort((a, b) => a - b),
+      correctSet.sort((a, b) => a - b)
+    );
+
+    buttons.forEach((btn, idx) => {
+      btn.disabled = true;
+      if (correctSet.includes(idx)) {
+        btn.classList.add('correct');
+      } else if (selectedIndices.includes(idx)) {
+        btn.classList.add('incorrect');
+      }
+    });
+
+    feedbackEl.textContent = isCorrect ? 'Correcto!' : 'Incorrecto.';
+    totalAnswered++;
+    if (isCorrect) totalCorrect++;
+    updateStats();
+    submitBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
+  }
+
+  nextBtn.onclick = () => {
+    currentIndex = (currentIndex + 1) % shuffledQuestions.length;
+    showQuestion();
+  };
+
+  submitBtn.onclick = submitAnswer;
+
+  showQuestion();
+</script>
+</body>
+</html>

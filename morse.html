@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Preguntas de código Morse</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 2em;
+    }
+    .question {
+      font-size: 3em;
+      margin-bottom: 1em;
+    }
+    input[type="text"] {
+      font-size: 1.5em;
+      padding: 0.5em;
+      width: 200px;
+      text-align: center;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      margin-left: 1em;
+    }
+    .score {
+      margin-top: 1em;
+      font-weight: bold;
+    }
+    .hidden {
+      display: none;
+    }
+    .correct {
+      color: green;
+    }
+    .wrong {
+      color: red;
+    }
+    #mistakes {
+      margin-top: 2em;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #mistakes table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #mistakes th, #mistakes td {
+      border: 1px solid #ccc;
+      padding: 0.5em;
+      text-align: center;
+    }
+    #mistakes th {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Código Morse</h1>
+
+  <div id="quiz-container">
+    <div class="question" id="char-display">A</div>
+    <input type="text" id="morse-input" placeholder="Escribir acá" autofocus />
+    <button onclick="submitAnswer()">Enviar</button>
+    <div class="score" id="score-display">Score: 0</div>
+    <div id="feedback"></div>
+
+    <div id="mistakes" class="hidden">
+      <h3>Respuestas incorrectas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Caracter</th>
+            <th>Respondiste</th>
+            <th>Valor correcto</th>
+          </tr>
+        </thead>
+        <tbody id="mistakes-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="final-screen" class="hidden">
+    <h2>¡Test completado!</h2>
+    <div id="final-score"></div>
+    <button onclick="startQuiz()">Contestar de nuevo</button>
+  </div>
+
+  <script>
+    const morseMap = {
+      A: ".-",     B: "-...",   C: "-.-.",   D: "-..",    E: ".",      F: "..-.",
+      G: "--.",    H: "....",   I: "..",     J: ".---",   K: "-.-",    L: ".-..",
+      M: "--",     N: "-.",     O: "---",    P: ".--.",   Q: "--.-",   R: ".-.",
+      S: "...",    T: "-",      U: "..-",    V: "...-",   W: ".--",    X: "-..-",
+      Y: "-.--",   Z: "--..",
+      0: "-----",  1: ".----",  2: "..---",  3: "...--",  4: "....-",
+      5: ".....",  6: "-....",  7: "--...",  8: "---..",  9: "----."
+    };
+
+    let quizItems = [];
+    let current = 0;
+    let score = 0;
+    let mistakes = [];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function startQuiz() {
+      const chars = Object.keys(morseMap);
+      quizItems = shuffle([...chars]);
+      current = 0;
+      score = 0;
+      mistakes = [];
+
+      document.getElementById("quiz-container").classList.remove("hidden");
+      document.getElementById("final-screen").classList.add("hidden");
+      document.getElementById("score-display").textContent = "Puntaje: 0";
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("mistakes").classList.add("hidden");
+      document.getElementById("mistakes-body").innerHTML = "";
+
+      showNext();
+    }
+
+    function showNext() {
+      if (current >= quizItems.length) {
+        endQuiz();
+        return;
+      }
+      const char = quizItems[current];
+      document.getElementById("char-display").textContent = char;
+      document.getElementById("morse-input").value = "";
+      document.getElementById("morse-input").focus();
+    }
+
+    function submitAnswer() {
+      const input = document.getElementById("morse-input").value.trim();
+      const char = quizItems[current];
+      const expected = morseMap[char];
+      const feedbackEl = document.getElementById("feedback");
+
+      if (input === expected) {
+        const points = /\d/.test(char) ? 2 : 1;
+        score += points;
+        feedbackEl.innerHTML = `<span class="correct">¡Correcto! +${points}</span>`;
+      } else {
+        feedbackEl.innerHTML = `<span class="wrong">¡Incorrecto! La respuesta correcta era: <code>${expected}</code></span>`;
+        mistakes.push({ char, input, expected });
+        updateMistakeTable();
+      }
+
+      document.getElementById("score-display").textContent = `Puntaje: ${score}`;
+      current++;
+      showNext();
+    }
+
+    function updateMistakeTable() {
+      const tbody = document.getElementById("mistakes-body");
+      const mistakesEl = document.getElementById("mistakes");
+      tbody.innerHTML = mistakes.map(m => `
+        <tr>
+          <td>${m.char}</td>
+          <td>${m.input || "(nada)"}</td>
+          <td>${m.expected}</td>
+        </tr>
+      `).join("");
+      mistakesEl.classList.remove("hidden");
+    }
+
+    function endQuiz() {
+      document.getElementById("quiz-container").classList.add("hidden");
+      document.getElementById("final-screen").classList.remove("hidden");
+      document.getElementById("final-score").textContent = `Puntaje final: ${score} de 46`;
+    }
+
+    document.getElementById("morse-input").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        submitAnswer();
+      }
+    });
+
+    startQuiz();
+  </script>
+
+</body>
+</html>
