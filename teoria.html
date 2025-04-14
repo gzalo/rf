@@ -157,12 +157,12 @@
     choices: ["135º", "45º", "90º", "180º"]
   },
   {
-    question: "¿Qué diferencia fundamental existe entre la corriente continua y la alterna?",
+    question: "En un receptor, el demodulador: ",
     choices: [
-      "No existe diferencia.",
-      "La frecuencia.",
-      "La corriente continua es trifásica.",
-      "La corriente continua tiene una frecuencia de 50 Hz."
+      "Produce una señal eléctrica oscilatoria de amplitud y frecuencia fija denominada portadora.",
+      "Extrae el mensaje a partir de la señal modulada.",
+      "Modifica la amplitud o la frecuencia de la portadora pura, conforme a la señal del mensaje",
+      "Amplifica la señal modulada."
     ]
   },
   {
@@ -170,8 +170,11 @@
     choices: ["Resistencia", "Transformador", "Diodo", "Impedancia"]
   },
   {
-    question: "El período de una señal alterna es de 4 milisegundos. ¿Cuál es su frecuencia?",
-    choices: ["500 Hz", "350 Hz", "250 Hz", "4 Hz"]
+    question: "En un transmisor, el modulador: ",
+    choices: ["Amplifica la señal proveniente de la antena para que su nivel sea mucho mayor al del ruido interno de las etapas subsiguientes.", 
+    "Produce una señal eléctrica oscilatoria de amplitud y frecuencia fija denominada portadora.",
+    "Modifica la amplitud o frecuencia de la portadora pura, conforme a la señal del mensaje.",
+    "Amplifica la señal modulada para enviarla a la antena."]
   },
   {
     question: "El valor máximo de una corriente alterna es de 200 mA. ¿Cuál es su valor eficaz?",
@@ -242,24 +245,24 @@
     choices: ["Ánodo, emisor y grilla", "Placa, pantalla y base", "Colector, base y emisor", "Colector, base y cátodo"]
   },
   {
-    question: "Las frecuencias de audio en el modo de Packet-Radio a 1200 bauds en F2D son:",
-    choices: ["600 y 1200 Hz", "1200 y 2200 Hz", "1600 y 2400 Hz", "1000 y 1200 Hz"]
+    question: "Tres capacitores de 6 nf son conectados en serie, ¿qué capacidad presenta el conjunto? ",
+    choices: ["1,0 nf", "2,0 nf", "6,0 nf", "18 nf"]
   },
   {
-    question: "Un TNC de Packet-Radio suele conectarse a:",
-    choices: ["El conector de video de una computadora", "El conector del scanner de una computadora", "El conector de teclado de una computadora", "El conector serie de una computadora"]
+    question: "El primario de un transformador tiene 60 espiras el secundario 300 espiras, si aplicamos al primario 12 V c.a., ¿qué tensión tendremos en el secundario? ",
+    choices: ["40v", "50v", "60v", "70v"]
   },
   {
     question: "Se desea utilizar en la banda de 80 mts. una antena dipolo de ½ longitud de onda alimentada en su centro por un cable coaxil de 75 ohms, en la que se midieron los siguientes valores de ROE:\nEn 3500 kHz.: ROE=1,1 En 3600 kHz.: ROE=2 En 3700 kHz.: ROE=3 En 3750 kHz.: ROE=4\n¿Qué debemos hacer con dicha antena?",
     choices: ["Alargarla", "Acortarla", "Aumentar la impedancia del coaxil", "Inclinarla"]
   },
   {
-    question: "La telemetría de un satélite es:",
+    question: "Las señales emitidas en la banda de 80 m: ",
     choices: [
-      "Una forma de medir la distancia a la que se encuentra un satélite",
-      "Una forma de medir el tamaño del satélite",
-      "Una forma de obtener información del estado del satélite",
-      "Una forma de medir el peso del satélite"
+      "No llegan a refractarse y escapan de la atmósfera.",
+      "Se absorben en la capa ionosférica “D” durante el mediodía",
+      "Sólo permiten comunicaciones seguras a más de 500 Km debido a la zona de silencio",
+      "Sólo permiten comunicaciones seguras a más de 2000 Km. Debido a la zona de silencio2"
     ]
   },
   {
@@ -360,12 +363,12 @@
     ]
   },
   {
-    question: "En el modo RTTY:",
+    question: "Disponemos de un transformador cuyo primario es alimentado con 220 V c.a. y tiene 1100 Espiras. El secundario nos deberá suministrar 15 V c.a., cuantas espiras deberá tener? ",
     choices: [
-      "Se transmite la portadora modulada en frecuencia con tres tonos",
-      "Se transmiten tres tonos para modular en amplitud la portadora",
-      "Dos tonos de audio modulan la portadora",
-      "La señal de micrófono hace variar la frecuencia de la portadora"
+      "50",
+      "60",
+      "75",
+      "85"
     ]
   },
   {
@@ -404,20 +407,25 @@
     choices: ["Amperímetro", "Potenciómetro", "Wattímetro", "Medidor de ROE"]
   },
   {
-    question: "La fórmula de frecuencia es: (F = frecuencia, V = tensión, I = corriente, P = período)",
-    choices: ["F = 1 / V", "F = 1 / I", "F = 1 / P", "F = V / I"]
+    question: "Para fonía el ancho del mensaje transmitido es: ",
+    choices: ["50 hz", "200 hz", "3000 hz", "20 khz"]
   },
   {
-    question: "Una antena tipo Yagi de 5 elementos para la frecuencia de 146,520 MHz tiene una impedancia de 120 ohms y es alimentada mediante una línea de transmisión coaxil de 50 ohms. El transmisor tiene una potencia de 45 Watts. ¿Qué relación de ondas estacionarias (ROE) mínima debería esperarse del sistema?",
-    choices: ["1,2 : 1", "3 : 1", "2 : 1", "2,4 : 1"]
+    question: "¿Qué ventaja tiene una señal de BLU (SSB) con respecto a una señal AM? ",
+    choices: ["a)No se pierde inteligibilidad para pequeños corrimientos en la sintonía.", 
+    "La cantidad de sonido es superior.",
+    "La portadora ayuda a tener un mayor alcance", "El ancho de banda es la mitad y por lo tanto se hace un mejor aprovechamiento del espectro radioeléctrico."]
   },
   {
     question: "¿Con qué instrumento se mide la frecuencia?",
     choices: ["Amperímetro", "Wattímetro", "Frecuencímetro", "Potenciómetro"]
   },
   {
-    question: "¿Cómo se le llama a la inversa de la resistencia 1 / R?",
-    choices: ["Suceptancia", "Admitancia", "Conductancia", "Reactancia"]
+    question: "El ancho de banda de una señal de BLU (SSB) es:",
+    choices: ["La mitad de la correspondiente al mensaje.", 
+    "El doble de la correspondiente al mensaje.",
+     "Igual de la correspondiente del mensaje.", 
+     "Igual al valor de la portadora."]
   },
   {
     question: "Cuando se aplica una tensión de 150 Volts a un circuito, la corriente medida es de 2,5 Amper. ¿Cuál es la resistencia del circuito?",
@@ -448,8 +456,11 @@
     choices: ["1", "2", "3", "4"]
   },
   {
-    question: "¿Cuál es la longitud de onda correspondiente a una frecuencia de 1845 kHz?",
-    choices: ["104,46 mts", "78 mts", "24,57 mts", "162,6 mts"]
+    question: "¿Qué función cumple un oscilador? ",
+    choices: ["Elimina alguna parte del contenido espectral de una señal, obteniéndose una nueva señal que es una aproximación de la original.", 
+    "Decrementa la amplitud de una señal manteniendo su forma de onda.", 
+    "Convierte una señal electromagnética en eléctrica.", 
+    "Genera internamente señales eléctricas y tiene una salida pero ninguna entrada."]
   },
   {
     question: "¿Cuál es la longitud de onda correspondiente a una frecuencia de 3657 kHz?",
@@ -464,8 +475,11 @@
     choices: ["10,11 mts", "9,23 mts", "12,56 mts", "20,22 mts"]
   },
   {
-    question: "Una antena de 4 medias ondas de largo para 14,2 MHz deberá tener una longitud de:",
-    choices: ["50,14 mts", "39,87 mts", "40,14 mts", "45,01 mts"]
+    question: "Un filtro: ",
+    choices: ["Genera internamente señales eléctricas, tiene una salida pero ninguna entrada.",
+    "Decrementa la amplitud de una señal manteniendo su forma de onda.",
+    "Elimina alguna parte del contenido espectral de una señal, obteniéndose una nueva señal que es una aproximación de la original.",
+    "Convierte una señal electromagnética en eléctrica."]
   },
   {
     question: "Una antena vertical de 1/4 de onda para la frecuencia de 146 MHz deberá tener una longitud aproximada de:",
@@ -484,16 +498,22 @@
     choices: ["Aprox. de 3 a 5 dB", "Aprox. de 6 a 8 dB", "Aprox. de 8 a 10 dB", "Aprox. de 9 a 11 dB"]
   },
   {
-    question: "El cable coaxil RG-59-U tiene una impedancia característica aproximada de:",
-    choices: ["75 ohms", "50 ohms", "300 ohms", "600 ohms"]
+    question: "Un amplificador: ",
+    choices: ["Incrementa la amplitud de una señal manteniendo su forma de onda.",
+     "Elimina alguna parte del contenido espectral de una señal, obteniéndose una nueva señal que es una aproximación de la original.",
+     "Genera internamente señales eléctricas y tiene una salida pero ninguna entrada.",
+     "Convierte una señal eléctrica en electromagnética."]
   },
   {
     question: "El cable coaxil RG-58U tiene una impedancia característica de:",
     choices: ["50 ohms", "75 ohms", "300 ohms", "600 ohms"]
   },
   {
-    question: "El cable plano conocido como “cinta de TV” tiene una impedancia característica de:",
-    choices: ["50 ohms", "75 ohms", "300 ohms", "600 ohms"]
+    question: "Se desea enviar como mensaje un tono de 3 Khz., en una señal de BLU banda inferior (BLI) cuya frecuencia es 3.500 Khz, la frecuencia de la señal modulada estará dada por: ",
+    choices: ["Una componente a 3.497 Khz, una componente a 3.500 Khz y una componente a 3.503 Khz.", 
+    "Una componente a 3.497 Khz y una componente a 3.500 Khz.", 
+    "Una componente a 3.497 Khz.", 
+    "Una componente a 3.500 Khz."]
   },
   {
     question: "El cable coaxil RG-8-U y el RG-213U tienen una impedancia característica de:",
@@ -509,8 +529,11 @@
     ]
   },
   {
-    question: "¿Cuál es el mejor ángulo para la instalación de una antena en “V” invertida?",
-    choices: ["45 grados", "30 grados", "90 grados", "180°"]
+    question: "Cuando se recepcionan dos señales de BLU (SSB) que están en una misma frecuencia:",
+    choices: ["Se cancelan entre sí y se escucha solamente ruido.",
+    "Se interferirán y se escuchara un sonido inteligible.",
+    "Se escucharan las dos, de acuerdo a la intensidad que se reciben.",
+    "La que llegue con mayor intensidad tapara a la otra"]
   },
   {
     question: "¿Qué permite realizar el sintonizador de antena (transmatch)?",
@@ -539,8 +562,11 @@
     choices: ["75 ohms", "300 ohms", "50 ohms", "35 ohms"]
   },
   {
-    question: "¿Cuál es el tipo de cable coaxil más apropiado para la banda de 2 mts. por sus bajas pérdidas?",
-    choices: ["RG-58-U", "RG-59-U", "RG-213-U", "RG-8"]
+    question: "Si por error se selecciona la BLI (SLB) en BLU (SSB) para recibir una señal de banda superior: ",
+    choices: ["Se escuchará una señal con tonalidad más aguda.",
+    "Se escuchara una señal ininteligible.",
+    "Se podrá escuchar la señal sin dificultad en caso de estar el receptor en la frecuencia correcta, caso contrario se escuchará la voz distorsionada.",
+    "Se escuchará una señal con tonalidad más grave."]
   },
   {
     question: "¿Cuál es la impedancia en el centro de una antena dipolo de 1/2 longitud de onda, tipo “V” invertida con sus ramas a 90º?",
@@ -609,8 +635,11 @@
     ]
   },
   {
-    question: "Para comunicarse a una distancia de 300 Km. en el mediodía, los resultados más seguros podrían obtenerse en la banda de:",
-    choices: ["160 mts", "80 mts", "40 mts", "20 mts"]
+    question: "¿Qué ventajas ofrece el oscilador a cristal de cuarzo sobre otro con inductancia y condensador? ",
+    choices: ["Que es un circuito más sencillo",
+    "Que el oscilador de cristal está libre de armónicos y el otro no",
+    "Que su estabilidad de frecuencia es mucho mayor",
+    "Que es mas económico."]
   },
   {
     question: "¿Cómo se propagan usualmente las señales de VHF?",
@@ -690,21 +719,21 @@
     ]
   },
   {
-    question: "¿Qué significa la sigla OFV?",
+    question: "Una señal de BLS (USB) ubicada en los 3.750 Khz. , ocupa el sector de frecuencias comprendido entre: ",
     choices: [
-      "Oscilador de fuente de voltaje.",
-      "Oscilador de frecuencia variable.",
-      "Oscilador foto voltaico.",
-      "Oscilador de fase virtual."
+      "3.747 y 3.750 Khz.",
+      "3.750 y 3.753 Khz.",
+      "3.747 y 3.753 Khz.",
+      "3.748 y 3.752 Khz."
     ]
   },
   {
-    question: "¿Qué significa la sigla CAF?",
+    question: "¿Qué ventaja tiene una señal de BLS (USB) con respecto a una señal BLI (LSB)? ",
     choices: [
-      "Corriente audio frecuente.",
-      "Cristal de alta frecuencia.",
-      "Control automático de frecuencia.",
-      "Corriente de audio frecuencia."
+      "No pierde inteligibilidad para pequeños corrimientos en la sintonía.",
+      "Tiene mucha mayor inmunidad al ruido.",
+      "No tiene ninguna ventaja ni desventaja, solo presentan diferencias técnicas en el transmisor y el receptor.",
+      "Es más fácil obtener el mensaje a partir de la señal modulada."
     ]
   },
   {
@@ -752,8 +781,11 @@
     ]
   },
   {
-    question: "Tenemos un medidor de potencia direccional y medimos en directa 10 Watts y en inversa 1 watt. ¿Cuál será (aproximadamente) la relación de ondas estacionarias?",
-    choices: ["1,92 : 1", "1: 1,22", "3 : 1", "3,15 : 1"]
+    question: "Si se duplica la frecuencia de la corriente que atraviesa una inductancia , ¿qué sucede con la reactancia ? ",
+    choices: ["Se duplica.",
+    "Se reduce a la mitad.",
+    "Se cuadriplica.",
+    "Queda igual."]
   },
   {
     question: "Desde la antena, en un receptor, ¿cuál es la etapa que antecede al amplificador de F.I.?",
@@ -848,12 +880,12 @@
     choices: ["“V” invertida.", "Inclinado.", "Horizontal", "Vertical."]
   },
   {
-    question: "¿Qué antena tiene más ganancia?",
+    question: "En un receptor, el amplificador de audio frecuencia: ",
     choices: [
-      "Direccional de 3 elementos.",
-      "Dipolo 1 / 2 longitud de onda.",
-      "Vertical 1 / 4 onda con planos de tierra.",
-      "Colineal de 11 dBi"
+      "Amplifica la señal modulada para enviarla a la antena.",
+      "Extrae el mensaje a partir de la señal demodulada.",
+      "Modifica la amplitud o la frecuencia de la portadora pura, conforme a la señal del mensaje.",
+      "Amplifica la señal demodulada."
     ]
   },
   {
@@ -861,21 +893,21 @@
     choices: ["2,55 mA", "25,53 mA", "255,31mA", "2,55 A"]
   },
   {
-    question: "¿Qué es un tono DTMF?",
+    question: "En un transceptor, por medio del comando RF GAIN ",
     choices: [
-      "Una señal especial utilizada para telemando",
-      "Un tono audible multifrecuente utilizado en transceptores móviles de mano.",
-      "Un tono especial utilizado por una repetidora, para indicar el fin de la transmisión",
-      "Una señal especial utilizada para telemetría en comunicaciones satelitales"
+      "Se controla la ganancia de la sección de radio frecuencia del transmisor.",
+      "Se controla la ganancia de la sección de radio frecuencia del receptor.",
+      "Se controla la ganancia de la sección de audio frecuencia del transmisor.",
+      "Se controla la ganancia de la sección de audio frecuencia del receptor."
     ]
   },
   {
     question: "Las líneas abiertas tienen:",
     choices: [
-      "Menor pérdida que las líneas coaxiles de costo comparable.",
-      "Igual pérdida que las líneas coaxiles de costo comparable.",
-      "Mayor pérdida que las líneas coaxiles de costo comparable.",
-      "Pérdida del doble que las líneas coaxiles de costo comparable."
+      "Menor pérdida que las líneas coaxiles.",
+      "Igual pérdida que las líneas coaxiles.",
+      "Mayor pérdida que las líneas coaxiles.",
+      "Pérdida del doble que las líneas coaxiles."
     ]
   },
   {
@@ -883,21 +915,27 @@
     choices: ["K=72", "K=132,5", "K=142,5", "K=300"]
   },
   {
-    question: "¿Qué es un tono CTCSS?",
+    question: "En un transceptor, por medio del comando AF GAIN: ",
     choices: [
-      "Una señal especial utilizada para telemando",
-      "Un tono sub-audible agregado a la portadora, que hace que un receptor acepte la señal",
-      "Un tono especial utilizado por una repetidora para indicar el fin de la transmisión",
-      "Una señal especial utilizada para telemetría en comunicaciones satelitales"
+      "Se controla la ganancia de la sección de audio frecuencia del transmisor.",
+      "Se controla la ganancia de la sección de audio frecuencia del receptor.",
+      "Se controla la ganancia de la sección de radio frecuencia del transmisor.",
+      "Se controla la ganancia de la sección de radio frecuencia del receptor."
     ]
   },
   {
-    question: "e dispone de cuatro resistencias (R1= 50 ohms, R2= 10 ohms, R3= 120 ohms y R4= 4700 ohms) conectadas en paralelo a una fuente de alimentación de 12 Volts. Que corriente circulará por R3 ?",
-    choices: ["1 mA", "10 mA", "100 mA", "1 A"]
+    question: "En un transceptor, por medio del comando SQUELCH: ",
+    choices: ["Se atenúa el ruido de las estaciones que llegan con señales débiles.",
+    "Se atenúa el ruido de las estaciones que llegan con señales fuertes.",
+    "Se silencia el audio cuando a la entrada del receptor no se detecta señal en la frecuencia de trabajo.",
+    "Aumenta la ganancia del receptor para estaciones débiles y la disminuye para estaciones fuertes."]
   },
   {
-    question: "Se dispone de cuatro resistencias (R1= 50 ohms, R2= 10 ohms, R3= 120 ohms y R4= 4700 ohms) conectadas en paralelo a una fuente de alimentación de 12 Volts. Cual será la corriente total (aproximada) que consumirá el circuito ?",
-    choices: ["1,54 A", "154 mA", "15,4 mA", "1,54 mA"]
+    question: "En un transceptor, por medio del comando MODE: ",
+    choices: ["Se selecciona los modo de operación AM, BLU (SSB), BLU (LSB), CW y FM.",
+    "Se selecciona la frecuencia de operación de acuerdo a las memorias programadas.",
+    "Se controla la amplitud de la portadora a transmitir en AM, BLU (SSB), BLU (LSB) y FM.",
+    "Se selecciona la banda de operación."]
   },
   {
     question: "¿A qué se llama amplificador lineal?",
@@ -977,7 +1015,7 @@
     choices: ["Filamento.", "Placa.", "Pantalla.", "Drenaje"]
   },
   {
-    question: "¿Cuál será la resistencia total (aproximada) del circuito con las 4 resistencias en paralelo?",
+    question: "Se dispone de cuatro resistencias (R1= 50 ohms, R2= 10 ohms, R3= 120 ohms y R4= 4700 ohms) conectadas en paralelo a una fuente de alimentación de 12 Volts. ¿Cuál será la resistencia total (aproximada) del circuito ?",
     choices: ["7,77 kohms", "77,7 ohms", "7,77 ohms", "777 ohms"]
   },
   {
