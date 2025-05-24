@@ -57,6 +57,12 @@
     #mistakes th {
       background: #f0f0f0;
     }
+    a {
+      color: black;
+    }
+    #index {
+      margin-top: 2em;
+    }
   </style>
 </head>
 <body>
@@ -67,7 +73,7 @@
     <div class="question" id="char-display">A</div>
     <input type="text" id="morse-input" placeholder="Escribir acá" autofocus />
     <button onclick="submitAnswer()">Enviar</button>
-    <div class="score" id="score-display">Score: 0</div>
+    <div class="score" id="score-display">Puntaje: 0</div>
     <div id="feedback"></div>
 
     <div id="mistakes" class="hidden">
@@ -83,6 +89,10 @@
         <tbody id="mistakes-body">
         </tbody>
       </table>
+    </div>
+    
+    <div id="index">
+      <a href="/">Ver otras prácticas</a>
     </div>
   </div>
 
